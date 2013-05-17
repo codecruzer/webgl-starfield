@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				color: #FF0000;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			#info {
+				color: #FF0000;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+			}
+
+			a {
+				color: #FF0000;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div id="info">
+		Click to add more stars - <a href="http://andre-cruz.com" target="_blank">andre-cruz.com</a>
+		</div>
+
+		<script data-src="shaders/particles/vertex.js" data-name="particles" type="x-shader/x-vertex"></script>
+		<script data-src="shaders/particles/fragment.js" data-name="particles" type="x-shader/x-fragment"></script>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript" src="js/lib/three.min.js"></script>
+		<script type="text/javascript" src="js/lib/Detector.js"></script>
+		<script type="text/javascript" src="js/lib/stats.min.js"></script>
+		<script type="text/javascript" src="js/JsUtils.js"></script>
+		<script type="text/javascript" src="js/ShaderLoader.js"></script>
+		<script type="text/javascript" src="js/Star.js"></script>
+		<script type="text/javascript" src="js/Starfield.js"></script>
+		<script type="text/javascript" src="js/App.js"></script>
+	</body>
+</html>
