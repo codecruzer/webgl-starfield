@@ -1,6 +1,6 @@
 var STARFIELD = STARFIELD || {};
 
-STARFIELD.create = function (scene, vertexShader, fragmentShader)
+STARFIELD.create = function (_scene, _width, _height, _depth, _vertexShader, _fragmentShader)
 {
 	var _SPAWN_AMOUNT = 100000;
 
@@ -16,6 +16,7 @@ STARFIELD.create = function (scene, vertexShader, fragmentShader)
 
 		return {
 			spawnStars: spawnStars,
+			resize: resize,
 			tick: tick,
 			getStarCount: getStarCount
 		};
@@ -27,6 +28,10 @@ STARFIELD.create = function (scene, vertexShader, fragmentShader)
 			elapsedTime: {
 				type: "f",
 				value: 1.0
+			},
+			depth: {
+				type: "f",
+				value: _depth
 			},
 			color: {
 				type: "c",
@@ -41,39 +46,57 @@ STARFIELD.create = function (scene, vertexShader, fragmentShader)
 		_material = _material || new THREE.ShaderMaterial(
 			{
 				uniforms: 		_uniforms,
-				vertexShader:   vertexShader,
-				fragmentShader: fragmentShader,
+				vertexShader:   _vertexShader,
+				fragmentShader: _fragmentShader,
 				blending: 		THREE.AdditiveBlending,
 				depthTest: 		false,
 				transparent:	true
 			}
 		);
 		
-		// Create new stars
+		// Create new star particles
 		var geometry = new THREE.Geometry();
 		var vertices = geometry.vertices;
 		for (var i = 0; i < _SPAWN_AMOUNT; ++i)
 		{
 			vertices.push(
 				new THREE.Vector3(
-					APP.screenW * Math.random(),
-					APP.screenH * Math.random(),
-					APP.maxDistance * Math.random()
+					Math.random(),
+					Math.random(),
+					_depth * Math.random()
 				)
 			);
 		}
 
+		// Create new star ParticleSystem
 		var particleSystem = new THREE.ParticleSystem(geometry, _material);
 		particleSystem.dynamic = true;
-		particleSystem.position.x = APP.screenW * -0.5;
-		particleSystem.position.y = APP.screenH * -0.5;
-		particleSystem.position.z = APP.maxDistance * -1;
-
+		particleSystem.position.z = _depth * -1;
 		_particleSystems.push(particleSystem);
 
-		if (scene)
+		resize(_width, _height);
+
+		if (_scene)
 		{
-			scene.add(particleSystem);
+			_scene.add(particleSystem);
+		}
+	}
+
+	var resize = function (width, height)
+	{
+		_width = width;
+		_height = height;
+
+		if (_particleSystems)
+		{
+			for (var i = _particleSystems.length - 1; i > -1; --i)
+			{
+				var particleSystem = _particleSystems[i];
+				particleSystem.position.x = _width * -0.5;
+				particleSystem.position.y = _height * -0.5;
+				particleSystem.scale.x = _width;
+				particleSystem.scale.y = _height;
+			}
 		}
 	}
 

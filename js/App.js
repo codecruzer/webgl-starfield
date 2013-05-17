@@ -7,16 +7,14 @@ APP.stats;
 APP.clock;
 
 // Scene properties
-APP.maxDistance = 1000.0;
+APP.depth = 1000.0;
 APP.fov = 75;
 APP.clipNear = 0.1;
-APP.clipFar = APP.maxDistance;
+APP.clipFar = APP.depth;
 APP.scene;
 APP.camera;
 APP.renderer;
 APP.shaders;
-
-APP.material;
 
 
 APP.starfield;
@@ -34,7 +32,7 @@ APP.init = function ()
 	if (!APP.camera)
 	{
 		APP.camera = new THREE.PerspectiveCamera(APP.fov, APP.getAspectRatio(), APP.clipNear, APP.clipFar);
-		APP.camera.position.z = (APP.maxDistance * 0.5);
+		APP.camera.position.z = (APP.depth * 0.5);
 	}
 
 	if (!APP.renderer)
@@ -64,13 +62,17 @@ APP.init = function ()
 	{
 		APP.starfield = STARFIELD.create(
 			APP.scene,
+			APP.screenW,
+			APP.screenH,
+			APP.depth,
 			APP.shaders.particles.vertex,
 			APP.shaders.particles.fragment
 		);
 	}
 
 	// Add event listeners
-	addEventListener('click', APP.onClick);
+	addEventListener("click", APP.onClick, false);
+	addEventListener("resize", APP.onResize, false);
 
 	document.getElementById("info").innerHTML += "</br>Stars: " + APP.starfield.getStarCount();
 
@@ -100,6 +102,11 @@ APP.getAspectRatio = function ()
 	return (APP.screenH == 0) ? 0.0 : APP.screenW / APP.screenH;
 }
 
+APP.loadShaders = function ()
+{
+	SHADER_LOADER.load(APP.onShadersLoaded);
+}
+
 APP.onClick = function ()
 {
 	APP.starfield.spawnStars();
@@ -109,12 +116,15 @@ APP.onClick = function ()
 
 APP.onResize = function ()
 {
-	APP.starfield.onResize();
-}
+	APP.screenW = window.innerWidth;
+	APP.screenH = window.innerHeight;
 
-APP.loadShaders = function ()
-{
-	SHADER_LOADER.load(APP.onShadersLoaded);
+	APP.camera.aspect = APP.getAspectRatio();
+	APP.camera.updateProjectionMatrix();
+
+	APP.renderer.setSize(APP.screenW, APP.screenH);
+
+	APP.starfield.resize(APP.screenW, APP.screenH);
 }
 
 APP.onShadersLoaded = function (shaders)
