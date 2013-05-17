@@ -6,37 +6,40 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
 			body {
-				color: #FF0000;
 				font-family:Monospace;
 				font-size:13px;
 				text-align:center;
 
-				background-color: #000000;
 				margin: 0px;
 				overflow: hidden;
 			}
 
-			#info {
-				color: #FF0000;
+			#infocontainer {
 				position: absolute;
-				top: 0px; width: 100%;
-				padding: 5px;
+				width: 100%;
+				top: 0px;
+			}
+
+			#info {
+				background-color: #000;
+				background-color: rgba(0,0,0,0.8);
+				color: #FFF;
+				margin-left: auto;
+				margin-right: auto;
 			}
 
 			a {
-				color: #FF0000;
+				color: #F00;
 			}
 
 		</style>
 	</head>
 	<body>
-		<div id="stats"></div>
-		<div id="info">
-			<div id="infotext">
-				Click to add more stars
-			</div>
+		<div id="infocontainer">
+			<span id="info">
+				Click to add more stars - <a href="http://andre-cruz.com" target="_blank">andre-cruz.com</a>
+			</span>
 		</div>
-		<div class="clear"></div>
 
 		<script data-src="shaders/particles/vertex.js" data-name="particles" type="x-shader/x-vertex"></script>
 		<script data-src="shaders/particles/fragment.js" data-name="particles" type="x-shader/x-fragment"></script>

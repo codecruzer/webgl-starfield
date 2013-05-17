@@ -51,7 +51,7 @@ APP.init = function ()
 		APP.stats = new Stats();
 		APP.stats.domElement.style.position = "absolute";
 		APP.stats.domElement.style.top = "0px";
-		document.getElementById("stats").appendChild(APP.stats.domElement);
+		document.body.appendChild(APP.stats.domElement);
 	}
 
 	if (!APP.clock)
@@ -72,7 +72,7 @@ APP.init = function ()
 	// Add event listeners
 	addEventListener('click', APP.onClick);
 
-	//document.getElementById("info").innerHTML += "</br>Stars: " + APP.starfield.getStarCount();
+	document.getElementById("info").innerHTML += "</br>Stars: " + APP.starfield.getStarCount();
 
 	APP.render();
 }
@@ -104,7 +104,7 @@ APP.onClick = function ()
 {
 	APP.starfield.spawnStars();
 
-	//document.getElementById("info").innerHTML = "Stars: " + APP.starfield.getStarCount();
+	document.getElementById("info").innerHTML = "Stars: " + APP.starfield.getStarCount();
 }
 
 APP.onResize = function ()
